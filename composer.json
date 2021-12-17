@@ -1,0 +1,26 @@
+{
+    "name": "jvmtech/neos-hardening",
+    "description": "Harden request headers, login interface and passwords to increase backend security.",
+    "type": "neos-package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jung von Matt TECH",
+            "homepage": "https://jvmtech.ch",
+            "role": "Company"
+        }
+    ],
+    "require": {
+        "neos/neos": "~7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "JvMTECH\\NeosHardening\\": "Classes"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "JvMTECH.NeosHardening"
+        }
+    }
+}

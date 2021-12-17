@@ -1,0 +1,22 @@
+#Neos:
+#  Flow:
+#    http:
+#
+#    session:
+#      name: CMS_Session
+#
+#    mvc:
+#      routes:
+#        MedScribe.Site:
+#          position: 'before Neos.Neos'
+#
+#    resource:
+#      targets:
+#        localWebDirectoryStaticResourcesTarget:
+#          targetOptions:
+#            path: '%FLOW_PATH_WEB%_StaticPackages/'
+#            baseUri: '_StaticPackages/'
+#        localWebDirectoryPersistentResourcesTarget:
+#          targetOptions:
+#            path: '%FLOW_PATH_WEB%_Persistent/'
+#            baseUri: '_Persistent/'

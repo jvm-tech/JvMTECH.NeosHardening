@@ -1,0 +1,7 @@
+JvMTECH:
+  NeosHardening:
+    allowedIPs:
+      IPv4: []
+      IPv6: []
+
+    checkPasswordStrengthOnAddUser: false
