@@ -54,7 +54,7 @@ class UserServiceAspect {
         $number    = !$this->settings['passwordRequirements']['numbers'] ?: preg_match('@[0-9]@', $password);
         $specialChars = !$this->settings['passwordRequirements']['specialChars'] ?: preg_match('@[^\w]@', $password);
 
-        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+        if(!$uppercase || !$lowercase || !$number || !$specialChars) {
             $this->throwPasswordRequirementsException('The password is too easy.');
         }
 
