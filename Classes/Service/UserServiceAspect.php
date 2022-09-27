@@ -1,4 +1,5 @@
 <?php
+
 namespace JvMTECH\NeosHardening\Service;
 
 use Neos\Flow\Annotations as Flow;
@@ -7,7 +8,8 @@ use Neos\Flow\Aop\JoinPointInterface;
 /**
  * @Flow\Aspect
  */
-class UserServiceAspect {
+class UserServiceAspect
+{
 
     /**
      * @Flow\InjectConfiguration()
@@ -54,24 +56,49 @@ class UserServiceAspect {
         $number    = !$this->settings['passwordRequirements']['numbers'] ?: preg_match('@[0-9]@', $password);
         $specialChars = !$this->settings['passwordRequirements']['specialChars'] ?: preg_match('@[^\w]@', $password);
 
-        if(!$uppercase || !$lowercase || !$number || !$specialChars) {
-            $this->throwPasswordRequirementsException('The password is too easy.');
+        $hasConsecutiveLetters = false;
+        if ((int)$this->settings['passwordRequirements']['maxConsecutiveLetters'] > 0) {
+            $hasConsecutiveLetters = preg_match(
+                sprintf(
+                    '/[A-Za-z]{%d}/',
+                    (int)$this->settings['passwordRequirements']['maxConsecutiveLetters'] + 1
+                ),
+                $password
+            ) === 1;
         }
 
+        $hasConsecutiveNumbers = false;
+        if ((int)$this->settings['passwordRequirements']['maxConsecutiveNumbers'] > 0) {
+            $hasConsecutiveNumbers = preg_match(
+                sprintf(
+                    '/[A-Za-z]{%d}/',
+                    (int)$this->settings['passwordRequirements']['maxConsecutiveNumbers'] + 1
+                ),
+                $password
+            ) === 1;
+        }
+
+        if (!$uppercase || !$lowercase || !$number || !$specialChars || $hasConsecutiveLetters || $hasConsecutiveNumbers) {
+            $this->throwPasswordRequirementsException('The password is too easy.');
+        }
     }
 
     protected function throwPasswordRequirementsException($message)
     {
         $requiredTexts = [];
         foreach ($this->settings['passwordRequirements'] as $passwordRequirementKey => $passwordRequirementValue) {
-            if ($passwordRequirementKey === 'minLength' && $passwordRequirementValue > 0) {
-                $requiredTexts[] = 'MinLength >= ' . $passwordRequirementValue;
-            } elseif ($passwordRequirementValue === true) {
+            if ($passwordRequirementValue === true) {
                 $requiredTexts[] = ucfirst($passwordRequirementKey);
+            } elseif ($passwordRequirementValue > 0) {
+                if (substr($passwordRequirementKey, 0, 3) === 'min') {
+                    $compareStr = ' >= ';
+                } else {
+                    $compareStr = ' <= ';
+                }
+                $requiredTexts[] = ucfirst($passwordRequirementKey) . $compareStr . $passwordRequirementValue;
             }
         }
 
         throw new \Exception($message . ' Required is: ' . implode(', ', $requiredTexts));
     }
-
 }
