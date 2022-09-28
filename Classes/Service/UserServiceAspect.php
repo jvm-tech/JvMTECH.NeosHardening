@@ -4,6 +4,7 @@ namespace JvMTECH\NeosHardening\Service;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Aop\JoinPointInterface;
+use Neos\Flow\Validation\Exception as ValidationException;
 
 /**
  * @Flow\Aspect
@@ -22,6 +23,7 @@ class UserServiceAspect
      * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->addUser()) && setting(JvMTECH.NeosHardening.checkPasswordStrengthOnAddUser)")
      * @param JoinPointInterface $joinPoint
      * @return string
+     * @throws ValidationException
      */
     public function addUserWithCheckPasswordStrength(JoinPointInterface $joinPoint)
     {
@@ -36,6 +38,7 @@ class UserServiceAspect
      * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->setUserPassword()) && setting(JvMTECH.NeosHardening.checkPasswordStrengthOnSetUserPassword)")
      * @param JoinPointInterface $joinPoint
      * @return string
+     * @throws ValidationException
      */
     public function setUserPasswordWithCheckPasswordStrength(JoinPointInterface $joinPoint)
     {
@@ -99,6 +102,6 @@ class UserServiceAspect
             }
         }
 
-        throw new \Exception($message . ' Required is: ' . implode(', ', $requiredTexts));
+        throw new ValidationException($message . ' Required is: ' . implode(', ', $requiredTexts));
     }
 }
