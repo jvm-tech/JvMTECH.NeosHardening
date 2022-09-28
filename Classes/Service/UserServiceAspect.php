@@ -74,7 +74,7 @@ class UserServiceAspect
         if ((int)$this->settings['passwordRequirements']['maxConsecutiveNumbers'] > 0) {
             $hasConsecutiveNumbers = preg_match(
                 sprintf(
-                    '/[A-Za-z]{%d}/',
+                    '/[0-9]{%d}/',
                     (int)$this->settings['passwordRequirements']['maxConsecutiveNumbers'] + 1
                 ),
                 $password

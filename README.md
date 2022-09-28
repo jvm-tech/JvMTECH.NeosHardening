@@ -44,6 +44,23 @@ composer require jvmtech/neos-hardening
         upperAndLowerCase: true
         numbers: true
         specialChars: false
+        maxConsecutiveLetters: 0 # disabled
+        maxConsecutiveNumbers: 0 # disabled
+  ```
+- An example for secure passwords (should be your standard because you use a password manager, right? 😉):
+  ```
+  JvMTECH:
+    NeosHardening:
+      passwordRequirements:
+        minLength: 16
+        upperAndLowerCase: true
+        numbers: true
+        specialChars: true
+        maxConsecutiveLetters: 3
+        maxConsecutiveNumbers: 3
+
+  # "djxAHQC0bzc_tjd9nmg" would fail
+  # "djx@HQC0bzc_tjd9nmg" would work
   ```
 
 ## *) Why hiding stuff?
