@@ -1,18 +1,17 @@
 JvMTECH:
   NeosHardening:
-
     loginUri: ''
-#    loginUri: 'neos-random-suffix'
+    # loginUri: 'neos-random-suffix'
 
-#    allowedIPs: []
+    # allowedIPs: []
     allowedIPs:
       IPv4: []
       IPv6: []
-#      IPv4:
-#        - '172.20.30.40'
-#        - '172.20.0.0/24'
-#      IPv6:
-#        - '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+      # IPv4:
+      #   - '172.20.30.40'
+      #   - '172.20.0.0/24'
+      # IPv6:
+      #   - '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
       serverParamsIpKeys:
         10: 'HTTP_X_REAL_IP'
         20: 'HTTP_X_FORWARDED_FOR'
@@ -24,11 +23,12 @@ JvMTECH:
       upperAndLowerCase: true
       numbers: true
       specialChars: false
+      maxConsecutiveLetters: 0 # 0 means disabled
+      maxConsecutiveNumbers: 0 # 0 means disabled
 
 Neos:
   Flow:
     http:
-
       applicationToken: 'ApplicationName'
 
       middlewares:
