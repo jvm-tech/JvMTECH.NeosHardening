@@ -37,7 +37,11 @@ class IPAllowListMiddleware implements MiddlewareInterface
                 return $handler->handle($request);
             }
 
-            preg_match('/^(' . ($this->settings['loginUri'] ?: 'neos') . ')?($|\/)/', $requestUri, $matches);
+            $regex = '/^(' . ($this->settings['loginUri'] ?: 'neos') . ')?($|\/)/';
+            if ($this->settings['loginUriRegex']) {
+                $regex = $this->settings['loginUriRegex'];
+            }
+            preg_match($regex, $requestUri, $matches);
             if ($matches) {
                 $serverParamsIpKeys = Arrays::getValueByPath($this->settings, 'allowedIPs.serverParamsIpKeys');
                 ksort($serverParamsIpKeys);

@@ -22,6 +22,12 @@ composer require jvmtech/neos-hardening
     NeosHardening:
       loginUri: 'neos-random-suffix'
   ```
+- Replace the dynamic login url check with a custom RegEx (not needed if you just replace `loginUri`):
+  ```
+  JvMTECH:
+    NeosHardening:
+      loginUriRegex: '/^(neos)?($|\/)/'
+  ```
 - Limit login interface access to specified ip addresses:
   ```
   JvMTECH:
