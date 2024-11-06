@@ -1,0 +1,13 @@
+JvMTECH_NeosHardening_FailedLogins:
+  persistent: true
+  frontend: Neos\Cache\Frontend\VariableFrontend
+  backend: Neos\Cache\Backend\FileBackend
+  backendOptions:
+    defaultLifetime: 0
+
+JvMTECH_NeosHardening_PasswordHistory:
+  persistent: true
+  frontend: Neos\Cache\Frontend\VariableFrontend
+  backend: Neos\Cache\Backend\FileBackend
+  backendOptions:
+    defaultLifetime: 0

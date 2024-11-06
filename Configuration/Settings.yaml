@@ -28,6 +28,12 @@ JvMTECH:
       maxConsecutiveLetters: 0 # 0 means disabled
       maxConsecutiveNumbers: 0 # 0 means disabled
 
+    checkFailedLogins: false
+    blockAfterFailedLogins: 5
+
+    checkPasswordHistory: false
+    passwordHistoryLength: 10
+
 Neos:
   Flow:
     http:

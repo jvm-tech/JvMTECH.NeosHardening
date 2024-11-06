@@ -68,6 +68,20 @@ composer require jvmtech/neos-hardening
   # "djxAHQC0bzc_tjd9nmg" would fail
   # "djx@HQC0bzc_tjd9nmg" would work
   ```
+- Disable user on too many failed login attempts:
+  ```
+  JvMTECH:
+    NeosHardening:
+      checkFailedLogins: true
+      blockAfterFailedLogins: 5
+  ```
+- Prevent reuse of old passwords:
+  ```
+  JvMTECH:
+    NeosHardening:
+      checkPasswordHistory: true
+      passwordHistoryLength: 10
+  ```
 
 ## *) Why hiding stuff?
 

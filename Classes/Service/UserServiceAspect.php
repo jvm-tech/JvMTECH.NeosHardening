@@ -4,19 +4,40 @@ namespace JvMTECH\NeosHardening\Service;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Aop\JoinPointInterface;
+use Neos\Flow\Cache\CacheManager;
+use Neos\Flow\Persistence\PersistenceManagerInterface;
+use Neos\Flow\Security\Cryptography\HashService;
 use Neos\Flow\Validation\Exception as ValidationException;
+use Neos\Neos\Domain\Model\User;
 
 /**
  * @Flow\Aspect
  */
 class UserServiceAspect
 {
-
     /**
      * @Flow\InjectConfiguration()
      * @var array
      */
     protected array $settings;
+
+    /**
+     * @var CacheManager
+     * @Flow\Inject
+     */
+    protected $cacheManager;
+
+    /**
+     * @Flow\Inject
+     * @var HashService
+     */
+    protected $hashService;
+
+    /**
+     * @Flow\Inject
+     * @var PersistenceManagerInterface
+     */
+    protected $persistenceManager;
 
     /**
      *
@@ -35,15 +56,25 @@ class UserServiceAspect
 
     /**
      *
-     * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->setUserPassword()) && setting(JvMTECH.NeosHardening.checkPasswordStrengthOnSetUserPassword)")
+     * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->setUserPassword())")
      * @param JoinPointInterface $joinPoint
      * @return string
      * @throws ValidationException
      */
-    public function setUserPasswordWithCheckPasswordStrength(JoinPointInterface $joinPoint)
+    public function setUserPasswordWithCheckPasswordStrengthAndHistory(JoinPointInterface $joinPoint)
     {
         $password = $joinPoint->getMethodArgument('password');
-        $this->checkPasswordStrength($password);
+
+        if ($this->settings['checkPasswordStrengthOnSetUserPassword']) {
+            $this->checkPasswordStrength($password);
+        }
+
+        if ($this->settings['checkPasswordHistory']) {
+            /** @var User $user */
+            $user = $joinPoint->getMethodArgument('user');
+
+            $this->checkPasswordHistory($user, $password);
+        }
 
         return $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
@@ -84,6 +115,30 @@ class UserServiceAspect
         if (!$uppercase || !$lowercase || !$number || !$specialChars || $hasConsecutiveLetters || $hasConsecutiveNumbers) {
             $this->throwPasswordRequirementsException('The password is too easy.');
         }
+    }
+
+    protected function checkPasswordHistory(User $user, $password)
+    {
+        $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
+        $hashedPassword = $this->hashService->hashPassword($password);
+
+        $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_PasswordHistory');
+        $history = $cache->get($userObjectIdentifier);
+
+        if (!is_array($history)) {
+            $history = [];
+        }
+
+        foreach ($history as $oldPassword) {
+            if ($this->hashService->validatePassword($password, $oldPassword)) {
+                throw new ValidationException('The password has already been used.');
+            }
+        }
+
+        $history[] = $hashedPassword;
+        $history = array_slice($history, (int)$this->settings['passwordHistoryLength'] * -1);
+
+        $cache->set($userObjectIdentifier, $history);
     }
 
     protected function throwPasswordRequirementsException($message)
