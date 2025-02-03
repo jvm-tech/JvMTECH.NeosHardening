@@ -6,6 +6,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Error\Messages\Message;
 use Neos\Flow\Aop\JoinPointInterface;
 use Neos\Flow\Cache\CacheManager;
+use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Security\Exception\AuthenticationRequiredException;
 use Neos\Flow\Validation\Exception as ValidationException;
 use Neos\Neos\Domain\Service\UserService;
@@ -22,16 +23,22 @@ class LoginControllerAspect
     protected $settings;
 
     /**
-     * @var CacheManager
      * @Flow\Inject
+     * @var CacheManager
      */
     protected $cacheManager;
 
     /**
-     * @var UserService
      * @Flow\Inject
+     * @var UserService
      */
     protected $userService;
+
+    /**
+     * @Flow\Inject
+     * @var PersistenceManagerInterface
+     */
+    protected $persistenceManager;
 
     /**
      * Store failed login attempts in cache and deactivate account after a certain number of failed attempts
@@ -51,9 +58,11 @@ class LoginControllerAspect
                 return $joinPoint->getAdviceChain()->proceed($joinPoint);
             }
 
+            $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
+
             $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_FailedLogins');
 
-            $failedLoginsCount = (int)$cache->get($username);
+            $failedLoginsCount = (int)$cache->get($userObjectIdentifier);
             $failedLoginsCount++;
 
             if ($failedLoginsCount > $this->settings['blockAfterFailedLogins']) {
@@ -61,7 +70,7 @@ class LoginControllerAspect
                 throw new AuthenticationRequiredException('You have reached the maximum number of failed logins.');
             }
 
-            $cache->set($username, $failedLoginsCount);
+            $cache->set($userObjectIdentifier, $failedLoginsCount);
         } catch (\Exception $e) {
             $joinPoint->getProxy()->addFlashMessage(
                 $e->getMessage(),
@@ -93,8 +102,10 @@ class LoginControllerAspect
                 return $joinPoint->getAdviceChain()->proceed($joinPoint);
             }
 
+            $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
+
             $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_FailedLogins');
-            $cache->set($username, 0);
+            $cache->set($userObjectIdentifier, 0);
         } catch (\Exception $e) {
             // ignore
         }
