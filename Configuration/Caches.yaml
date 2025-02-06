@@ -11,3 +11,10 @@ JvMTECH_NeosHardening_PasswordHistory:
   backend: Neos\Cache\Backend\FileBackend
   backendOptions:
     defaultLifetime: 0
+
+JvMTECH_NeosHardening_ForcePasswordReset:
+  persistent: true
+  frontend: Neos\Cache\Frontend\VariableFrontend
+  backend: Neos\Cache\Backend\FileBackend
+  backendOptions:
+    defaultLifetime: 0

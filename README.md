@@ -82,6 +82,12 @@ composer require jvmtech/neos-hardening
       checkPasswordHistory: true
       passwordHistoryLength: 10
   ```
+- - Force password reset on new account creation or admin update:
+  ```
+  JvMTECH:
+    NeosHardening:
+      forcePasswordResetAfterUpdate: true
+  ```
 
 ## *) Why hiding stuff?
 

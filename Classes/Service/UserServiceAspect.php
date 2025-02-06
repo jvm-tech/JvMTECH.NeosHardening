@@ -9,6 +9,7 @@ use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Security\Cryptography\HashService;
 use Neos\Flow\Validation\Exception as ValidationException;
 use Neos\Neos\Domain\Model\User;
+use Neos\Neos\Service\UserService;
 
 /**
  * @Flow\Aspect
@@ -40,6 +41,12 @@ class UserServiceAspect
     protected $persistenceManager;
 
     /**
+     * @Flow\Inject
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
      *
      * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->addUser()) && setting(JvMTECH.NeosHardening.checkPasswordStrengthOnAddUser)")
      * @param JoinPointInterface $joinPoint
@@ -50,6 +57,12 @@ class UserServiceAspect
     {
         $password = $joinPoint->getMethodArgument('password');
         $this->checkPasswordStrength($password);
+
+        $user = $joinPoint->getMethodArgument('user');
+        $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
+
+        $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
+        $cache->set($userObjectIdentifier, true);
 
         return $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
@@ -65,15 +78,20 @@ class UserServiceAspect
     {
         $password = $joinPoint->getMethodArgument('password');
 
+        /** @var User $user */
+        $user = $joinPoint->getMethodArgument('user');
+        $backendUser = $this->userService->getBackendUser();
+
         if ($this->settings['checkPasswordStrengthOnSetUserPassword']) {
             $this->checkPasswordStrength($password);
         }
 
         if ($this->settings['checkPasswordHistory']) {
-            /** @var User $user */
-            $user = $joinPoint->getMethodArgument('user');
-
             $this->checkPasswordHistory($user, $password);
+        }
+
+        if ($this->settings['forcePasswordResetAfterUpdate']) {
+            $this->forcePasswordResetAfterUpdate($user, $backendUser);
         }
 
         return $joinPoint->getAdviceChain()->proceed($joinPoint);
@@ -139,6 +157,20 @@ class UserServiceAspect
         $history = array_slice($history, (int)$this->settings['passwordHistoryLength'] * -1);
 
         $cache->set($userObjectIdentifier, $history);
+    }
+
+    protected function forcePasswordResetAfterUpdate(User $user, User $backendUser)
+    {
+        $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
+        $backendUserObjectIdentifier = $this->persistenceManager->getIdentifierByObject($backendUser);
+
+        $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
+
+        if ($userObjectIdentifier === $backendUserObjectIdentifier) {
+            $cache->remove($userObjectIdentifier);
+        } else {
+            $cache->set($userObjectIdentifier, true);
+        }
     }
 
     protected function throwPasswordRequirementsException($message)

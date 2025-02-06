@@ -34,6 +34,8 @@ JvMTECH:
     checkPasswordHistory: false
     passwordHistoryLength: 10
 
+    forcePasswordResetAfterUpdate: false
+
 Neos:
   Flow:
     http:
