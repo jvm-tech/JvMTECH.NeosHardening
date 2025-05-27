@@ -9,34 +9,20 @@ use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Validation\Exception as ValidationException;
 use Neos\Neos\Service\UserService;
 
-/**
- * @Flow\Aspect
- */
+#[Flow\Aspect]
 class ForcePasswordResetAspect
 {
-    /**
-     * @Flow\InjectConfiguration()
-     * @var array
-     */
+    #[Flow\InjectConfiguration]
     protected array $settings;
 
-    /**
-     * @Flow\Inject
-     * @var UserService
-     */
-    protected $userService;
+    #[Flow\Inject]
+    protected UserService $userService;
 
-    /**
-     * @var CacheManager
-     * @Flow\Inject
-     */
-    protected $cacheManager;
+    #[Flow\Inject]
+    protected CacheManager $cacheManager;
 
-    /**
-     * @Flow\Inject
-     * @var PersistenceManagerInterface
-     */
-    protected $persistenceManager;
+    #[Flow\Inject]
+    protected PersistenceManagerInterface $persistenceManager;
 
     /**
      *
@@ -45,7 +31,7 @@ class ForcePasswordResetAspect
      * @return string
      * @throws ValidationException
      */
-    public function forcePasswordResetInContentControllerIndex(JoinPointInterface $joinPoint)
+    public function forcePasswordResetInContentControllerIndex(JoinPointInterface $joinPoint): string
     {
         $user = $this->userService->getBackendUser();
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
@@ -66,7 +52,7 @@ class ForcePasswordResetAspect
      * @return string
      * @throws ValidationException
      */
-    public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint)
+    public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint): string
     {
         $user = $this->userService->getBackendUser();
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);

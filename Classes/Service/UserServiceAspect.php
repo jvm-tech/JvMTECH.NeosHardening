@@ -16,35 +16,20 @@ use Neos\Neos\Service\UserService;
  */
 class UserServiceAspect
 {
-    /**
-     * @Flow\InjectConfiguration()
-     * @var array
-     */
+    #[Flow\InjectConfiguration]
     protected array $settings;
 
-    /**
-     * @var CacheManager
-     * @Flow\Inject
-     */
-    protected $cacheManager;
+    #[Flow\Inject]
+    protected CacheManager $cacheManager;
 
-    /**
-     * @Flow\Inject
-     * @var HashService
-     */
-    protected $hashService;
+    #[Flow\Inject]
+    protected HashService $hashService;
 
-    /**
-     * @Flow\Inject
-     * @var PersistenceManagerInterface
-     */
-    protected $persistenceManager;
+    #[Flow\Inject]
+    protected PersistenceManagerInterface $persistenceManager;
 
-    /**
-     * @Flow\Inject
-     * @var UserService
-     */
-    protected $userService;
+    #[Flow\Inject]
+    protected UserService $userService;
 
     /**
      *
@@ -53,7 +38,7 @@ class UserServiceAspect
      * @return string
      * @throws ValidationException
      */
-    public function addUserWithCheckPasswordStrength(JoinPointInterface $joinPoint)
+    public function addUserWithCheckPasswordStrength(JoinPointInterface $joinPoint): string
     {
         $password = $joinPoint->getMethodArgument('password');
         $this->checkPasswordStrength($password);
@@ -74,7 +59,7 @@ class UserServiceAspect
      * @return string
      * @throws ValidationException
      */
-    public function setUserPasswordWithCheckPasswordStrengthAndHistory(JoinPointInterface $joinPoint)
+    public function setUserPasswordWithCheckPasswordStrengthAndHistory(JoinPointInterface $joinPoint): string
     {
         $password = $joinPoint->getMethodArgument('password');
 
@@ -97,7 +82,7 @@ class UserServiceAspect
         return $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
 
-    protected function checkPasswordStrength($password)
+    protected function checkPasswordStrength($password): void
     {
         if ($this->settings['passwordRequirements']['minLength'] && strlen($password) < $this->settings['passwordRequirements']['minLength']) {
             $this->throwPasswordRequirementsException('The password is too short.');
@@ -135,7 +120,7 @@ class UserServiceAspect
         }
     }
 
-    protected function checkPasswordHistory(User $user, $password)
+    protected function checkPasswordHistory(User $user, $password): void
     {
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
         $hashedPassword = $this->hashService->hashPassword($password);
@@ -159,7 +144,7 @@ class UserServiceAspect
         $cache->set($userObjectIdentifier, $history);
     }
 
-    protected function forcePasswordResetAfterUpdate(User $user, User $backendUser)
+    protected function forcePasswordResetAfterUpdate(User $user, User $backendUser): void
     {
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
         $backendUserObjectIdentifier = $this->persistenceManager->getIdentifierByObject($backendUser);
@@ -173,7 +158,7 @@ class UserServiceAspect
         }
     }
 
-    protected function throwPasswordRequirementsException($message)
+    protected function throwPasswordRequirementsException($message): void
     {
         $requiredTexts = [];
         foreach ($this->settings['passwordRequirements'] as $passwordRequirementKey => $passwordRequirementValue) {

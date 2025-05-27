@@ -16,29 +16,17 @@ use Neos\Neos\Domain\Service\UserService;
  */
 class LoginControllerAspect
 {
-    /**
-     * @Flow\InjectConfiguration()
-     * @var array
-     */
+    #[Flow\InjectConfiguration]
     protected $settings;
 
-    /**
-     * @Flow\Inject
-     * @var CacheManager
-     */
-    protected $cacheManager;
+    #[Flow\Inject]
+    protected CacheManager $cacheManager;
 
-    /**
-     * @Flow\Inject
-     * @var UserService
-     */
-    protected $userService;
+    #[Flow\Inject]
+    protected UserService $userService;
 
-    /**
-     * @Flow\Inject
-     * @var PersistenceManagerInterface
-     */
-    protected $persistenceManager;
+    #[Flow\Inject]
+    protected PersistenceManagerInterface $persistenceManager;
 
     /**
      * Store failed login attempts in cache and deactivate account after a certain number of failed attempts
@@ -48,7 +36,7 @@ class LoginControllerAspect
      * @return string
      * @throws ValidationException
      */
-    public function onAuthenticationFailureWithCheckFailedLogins(JoinPointInterface $joinPoint)
+    public function onAuthenticationFailureWithCheckFailedLogins(JoinPointInterface $joinPoint): string
     {
         try {
             $username = $_POST['__authentication']['Neos']['Flow']['Security']['Authentication']['Token']['UsernamePassword']['username'];
@@ -92,7 +80,7 @@ class LoginControllerAspect
      * @return string
      * @throws ValidationException
      */
-    public function onAuthenticationSuccessWithCheckFailedLogins(JoinPointInterface $joinPoint)
+    public function onAuthenticationSuccessWithCheckFailedLogins(JoinPointInterface $joinPoint): string
     {
         try {
             $username = $_POST['__authentication']['Neos']['Flow']['Security']['Authentication']['Token']['UsernamePassword']['username'];
