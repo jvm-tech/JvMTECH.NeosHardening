@@ -1,2 +1,2 @@
-Neos\Flow\Mvc\Routing\RouterInterface:
-  className: JvMTECH\NeosHardening\Mvc\Routing\Router
+Neos\Flow\Mvc\Routing\RoutesProviderInterface:
+  className: JvMTECH\NeosHardening\Mvc\Routing\ConfigurationRoutesProvider

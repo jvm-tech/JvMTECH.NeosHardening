@@ -11,10 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class IPAllowListMiddleware implements MiddlewareInterface
 {
-    /**
-     * @Flow\InjectConfiguration()
-     * @var array
-     */
+    #[Flow\InjectConfiguration]
     protected array $settings;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

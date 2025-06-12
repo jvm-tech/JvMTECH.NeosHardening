@@ -9,40 +9,26 @@ use Neos\Flow\Persistence\PersistenceManagerInterface;
 use Neos\Flow\Validation\Exception as ValidationException;
 use Neos\Neos\Service\UserService;
 
-/**
- * @Flow\Aspect
- */
+#[Flow\Aspect]
 class ForcePasswordResetAspect
 {
-    /**
-     * @Flow\InjectConfiguration()
-     * @var array
-     */
+    #[Flow\InjectConfiguration]
     protected array $settings;
 
-    /**
-     * @Flow\Inject
-     * @var UserService
-     */
-    protected $userService;
+    #[Flow\Inject]
+    protected UserService $userService;
 
-    /**
-     * @var CacheManager
-     * @Flow\Inject
-     */
-    protected $cacheManager;
+    #[Flow\Inject]
+    protected CacheManager $cacheManager;
 
-    /**
-     * @Flow\Inject
-     * @var PersistenceManagerInterface
-     */
-    protected $persistenceManager;
+    #[Flow\Inject]
+    protected PersistenceManagerInterface $persistenceManager;
 
     /**
      *
      * @Flow\Around("method(Neos\Neos\Ui\Controller\BackendController->indexAction()) && setting(JvMTECH.NeosHardening.forcePasswordResetAfterUpdate)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return void
      * @throws ValidationException
      */
     public function forcePasswordResetInContentControllerIndex(JoinPointInterface $joinPoint)
@@ -52,28 +38,28 @@ class ForcePasswordResetAspect
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
         if ($cache->get($userObjectIdentifier)) {
-            header('Location: /neos/user/usersettings');
+            header('Location: /' . $this->settings['loginUri'] . '/user/usersettings');
             exit();
         }
 
-        return $joinPoint->getAdviceChain()->proceed($joinPoint);
+        $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
 
     /**
      *
      * @Flow\Around("method(Neos\Neos\Controller\Backend\ModuleController->indexAction()) && setting(JvMTECH.NeosHardening.forcePasswordResetAfterUpdate)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return mixed
      * @throws ValidationException
      */
-    public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint)
+    public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint): mixed
     {
         $user = $this->userService->getBackendUser();
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
-        if ($cache->get($userObjectIdentifier) && mb_strpos($_SERVER['REQUEST_URI'], 'neos/user/usersettings') === false) {
-            header('Location: /neos/user/usersettings');
+        if ($cache->get($userObjectIdentifier) && mb_strpos($_SERVER['REQUEST_URI'], $this->settings['loginUri'] . '/user/usersettings') === false) {
+            header('Location: /' . $this->settings['loginUri'] . '/user/usersettings');
             exit();
         }
 
