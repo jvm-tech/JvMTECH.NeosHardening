@@ -34,9 +34,6 @@ class ConfigurationRoutesProvider implements RoutesProviderInterface
                     $routes[] = $route;
                 }
             } else {
-                if (empty($loginUri)) {
-
-                }
                 $uriPatternReplaced = preg_replace('/^(neos)?($|\/)/', $loginUri . '$2', $routeConfiguration['uriPattern']);
                 if ($uriPatternReplaced) {
                     $routeConfiguration['uriPattern'] = $uriPatternReplaced;

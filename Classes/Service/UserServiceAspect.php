@@ -35,10 +35,10 @@ class UserServiceAspect
      *
      * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->addUser()) && setting(JvMTECH.NeosHardening.checkPasswordStrengthOnAddUser)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return User
      * @throws ValidationException
      */
-    public function addUserWithCheckPasswordStrength(JoinPointInterface $joinPoint): string
+    public function addUserWithCheckPasswordStrength(JoinPointInterface $joinPoint): User
     {
         $password = $joinPoint->getMethodArgument('password');
         $this->checkPasswordStrength($password);
@@ -56,10 +56,9 @@ class UserServiceAspect
      *
      * @Flow\Around("method(Neos\Neos\Domain\Service\UserService->setUserPassword())")
      * @param JoinPointInterface $joinPoint
-     * @return string
      * @throws ValidationException
      */
-    public function setUserPasswordWithCheckPasswordStrengthAndHistory(JoinPointInterface $joinPoint): string
+    public function setUserPasswordWithCheckPasswordStrengthAndHistory(JoinPointInterface $joinPoint)
     {
         $password = $joinPoint->getMethodArgument('password');
 
@@ -79,7 +78,7 @@ class UserServiceAspect
             $this->forcePasswordResetAfterUpdate($user, $backendUser);
         }
 
-        return $joinPoint->getAdviceChain()->proceed($joinPoint);
+        $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
 
     protected function checkPasswordStrength($password): void
@@ -144,10 +143,10 @@ class UserServiceAspect
         $cache->set($userObjectIdentifier, $history);
     }
 
-    protected function forcePasswordResetAfterUpdate(User $user, User $backendUser): void
+    protected function forcePasswordResetAfterUpdate(User $user, User $backendUser = null): void
     {
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
-        $backendUserObjectIdentifier = $this->persistenceManager->getIdentifierByObject($backendUser);
+        $backendUserObjectIdentifier = $backendUser ? $this->persistenceManager->getIdentifierByObject($backendUser) : '';
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
 

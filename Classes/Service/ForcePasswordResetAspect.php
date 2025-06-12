@@ -28,38 +28,38 @@ class ForcePasswordResetAspect
      *
      * @Flow\Around("method(Neos\Neos\Ui\Controller\BackendController->indexAction()) && setting(JvMTECH.NeosHardening.forcePasswordResetAfterUpdate)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return void
      * @throws ValidationException
      */
-    public function forcePasswordResetInContentControllerIndex(JoinPointInterface $joinPoint): string
+    public function forcePasswordResetInContentControllerIndex(JoinPointInterface $joinPoint)
     {
         $user = $this->userService->getBackendUser();
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
         if ($cache->get($userObjectIdentifier)) {
-            header('Location: /neos/user/usersettings');
+            header('Location: /' . $this->settings['loginUri'] . '/user/usersettings');
             exit();
         }
 
-        return $joinPoint->getAdviceChain()->proceed($joinPoint);
+        $joinPoint->getAdviceChain()->proceed($joinPoint);
     }
 
     /**
      *
      * @Flow\Around("method(Neos\Neos\Controller\Backend\ModuleController->indexAction()) && setting(JvMTECH.NeosHardening.forcePasswordResetAfterUpdate)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return mixed
      * @throws ValidationException
      */
-    public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint): string
+    public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint): mixed
     {
         $user = $this->userService->getBackendUser();
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
-        if ($cache->get($userObjectIdentifier) && mb_strpos($_SERVER['REQUEST_URI'], 'neos/user/usersettings') === false) {
-            header('Location: /neos/user/usersettings');
+        if ($cache->get($userObjectIdentifier) && mb_strpos($_SERVER['REQUEST_URI'], $this->settings['loginUri'] . '/user/usersettings') === false) {
+            header('Location: /' . $this->settings['loginUri'] . '/user/usersettings');
             exit();
         }
 
