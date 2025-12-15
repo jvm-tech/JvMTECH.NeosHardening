@@ -52,7 +52,7 @@ class ForcePasswordResetAspect
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
         if ($cache->get($userObjectIdentifier)) {
-            header('Location: /neos/user/usersettings');
+            header('Location: /' . $this->settings['loginUri'] . '/user/usersettings');
             exit();
         }
 
@@ -72,8 +72,8 @@ class ForcePasswordResetAspect
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
-        if ($cache->get($userObjectIdentifier) && mb_strpos($_SERVER['REQUEST_URI'], 'neos/user/usersettings') === false) {
-            header('Location: /neos/user/usersettings');
+        if ($cache->get($userObjectIdentifier) && mb_strpos($_SERVER['REQUEST_URI'], $this->settings['loginUri'] . '/user/usersettings') === false) {
+            header('Location: /' . $this->settings['loginUri'] . '/user/usersettings');
             exit();
         }
 

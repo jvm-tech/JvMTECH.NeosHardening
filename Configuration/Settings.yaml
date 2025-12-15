@@ -1,6 +1,6 @@
 JvMTECH:
   NeosHardening:
-    loginUri: ''
+    loginUri: 'neos'
     # loginUri: 'neos-random-suffix'
     loginUriRegex: ''
     # loginUriRegex: '/^(neos)?($|\/)/'
