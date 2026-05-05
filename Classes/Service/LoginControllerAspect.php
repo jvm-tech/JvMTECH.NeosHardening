@@ -33,10 +33,10 @@ class LoginControllerAspect
      *
      * @Flow\Around("method(Neos\Neos\Controller\LoginController->onAuthenticationFailure()) && setting(JvMTECH.NeosHardening.checkFailedLogins)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return mixed
      * @throws ValidationException
      */
-    public function onAuthenticationFailureWithCheckFailedLogins(JoinPointInterface $joinPoint): string
+    public function onAuthenticationFailureWithCheckFailedLogins(JoinPointInterface $joinPoint): mixed
     {
         try {
             $username = $_POST['__authentication']['Neos']['Flow']['Security']['Authentication']['Token']['UsernamePassword']['username'];
@@ -77,10 +77,10 @@ class LoginControllerAspect
      *
      * @Flow\Around("method(Neos\Neos\Controller\LoginController->onAuthenticationSuccess()) && setting(JvMTECH.NeosHardening.checkFailedLogins)")
      * @param JoinPointInterface $joinPoint
-     * @return string
+     * @return mixed
      * @throws ValidationException
      */
-    public function onAuthenticationSuccessWithCheckFailedLogins(JoinPointInterface $joinPoint): string
+    public function onAuthenticationSuccessWithCheckFailedLogins(JoinPointInterface $joinPoint): mixed
     {
         try {
             $username = $_POST['__authentication']['Neos']['Flow']['Security']['Authentication']['Token']['UsernamePassword']['username'];
