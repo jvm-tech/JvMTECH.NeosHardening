@@ -37,6 +37,18 @@ JvMTECH:
     forcePasswordResetAfterUpdate: false
 
 Neos:
+  Neos:
+    modules:
+      administration:
+        submodules:
+          hardening:
+            label: 'JvMTECH.NeosHardening:Modules:module.label'
+            controller: 'JvMTECH\NeosHardening\Controller\Module\HardeningController'
+            description: 'JvMTECH.NeosHardening:Modules:module.description'
+            icon: 'fas fa-shield-alt'
+            mainStylesheet: 'Lite'
+            privilegeTarget: 'JvMTECH.NeosHardening:Backend.Module.Administration.Hardening'
+
   Flow:
     http:
       applicationToken: 'ApplicationName'

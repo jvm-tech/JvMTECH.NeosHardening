@@ -89,6 +89,19 @@ composer require jvmtech/neos-hardening
       forcePasswordResetAfterUpdate: true
   ```
 
+## Backend module
+
+Administrators get a "Hardening" module in the Neos backend (Administration > Hardening):
+
+- List all users with their status, failed login count and whether a password change is required
+- Activate deactivated users (also resets the failed login count)
+- Deactivate users and end all of their sessions
+- Require or drop a password change on next backend access
+- Security checks: an overview of the options above, whether each is enabled and its current value
+
+Access is granted to `Neos.Neos:Administrator` via the privilege target
+`JvMTECH.NeosHardening:Backend.Module.Administration.Hardening`.
+
 ## *) Why hiding stuff?
 
 Hiding the Neos version in the request headers and moving the login to an new url is nothing else than "[security by obsurity](https://en.wikipedia.org/wiki/Security_through_obscurity)".

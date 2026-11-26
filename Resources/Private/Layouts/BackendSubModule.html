@@ -1,0 +1,30 @@
+{namespace neos=Neos\Neos\ViewHelpers}
+<style>
+	/* Same spacing as the core user management module */
+	.neos.neos-module .neos-content i.fa-user { margin-right: 11px; }
+
+	/* Neos greys out all labels inside module tables; keep the status colors */
+	.neos.neos-module .neos-label.neos-label-success,
+	.neos.neos-module table.neos-table .neos-label.neos-label-success { background-color: #00a338; }
+	.neos.neos-module .neos-label.neos-label-warning,
+	.neos.neos-module table.neos-table .neos-label.neos-label-warning { background-color: #ff8700; }
+	.neos.neos-module .neos-label.neos-label-important,
+	.neos.neos-module table.neos-table .neos-label.neos-label-important { background-color: #ff460d; }
+	.neos.neos-module .neos-label.neos-label-info,
+	.neos.neos-module table.neos-table .neos-label.neos-label-info { background-color: #00b5ff; }
+</style>
+
+<div class="neos-content neos-container-fluid">
+	<f:link.action action="index" class="neos-button{f:if(condition: '{activeTab} == \'users\'', then: ' neos-active')}">
+		{neos:backend.translate(id: 'tabs.users', source: 'Modules', package: 'JvMTECH.NeosHardening')}
+	</f:link.action>
+	<f:link.action action="securityChecks" class="neos-button{f:if(condition: '{activeTab} == \'checks\'', then: ' neos-active')}">
+		{neos:backend.translate(id: 'tabs.checks', source: 'Modules', package: 'JvMTECH.NeosHardening')}
+		<f:if condition="{disabledCount}">
+			<span class="neos-label neos-label-warning">{disabledCount}</span>
+		</f:if>
+	</f:link.action>
+	<br /><br />
+
+	<f:render section="content" />
+</div>

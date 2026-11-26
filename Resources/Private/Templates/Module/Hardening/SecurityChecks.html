@@ -1,0 +1,34 @@
+{namespace neos=Neos\Neos\ViewHelpers}
+<f:layout name="BackendSubModule" />
+
+<f:section name="content">
+	<div class="neos-row-fluid">
+		<table class="neos-table">
+			<thead>
+				<tr>
+					<th>{neos:backend.translate(id: 'checks.column.status', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'checks.column.option', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'checks.column.value', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'checks.column.setting', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+				</tr>
+			</thead>
+			<f:for each="{checks}" as="check">
+				<tr>
+					<td>
+						<f:if condition="{check.enabled}">
+							<f:then><span class="neos-label neos-label-success">{neos:backend.translate(id: 'checks.enabled', source: 'Modules', package: 'JvMTECH.NeosHardening')}</span></f:then>
+							<f:else><span class="neos-label neos-label-warning">{neos:backend.translate(id: 'checks.disabled', source: 'Modules', package: 'JvMTECH.NeosHardening')}</span></f:else>
+						</f:if>
+					</td>
+					<td>{check.title}</td>
+					<td>
+						<f:for each="{check.values}" as="value" iteration="iteration">{value}<f:if condition="{iteration.isLast}"><f:else><br /></f:else></f:if></f:for>
+					</td>
+					<td>
+						<f:for each="{check.settings}" as="setting" iteration="iteration"><code>{setting}</code><f:if condition="{iteration.isLast}"><f:else><br /></f:else></f:if></f:for>
+					</td>
+				</tr>
+			</f:for>
+		</table>
+	</div>
+</f:section>

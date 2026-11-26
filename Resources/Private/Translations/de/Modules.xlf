@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" product-name="JvMTECH.NeosHardening" source-language="en" target-language="de" datatype="plaintext">
+		<body>
+			<trans-unit id="module.label" xml:space="preserve">
+				<source>Hardening</source>
+				<target state="translated">Hardening</target>
+			</trans-unit>
+			<trans-unit id="module.description" xml:space="preserve">
+				<source>Unlock and lock users, require password changes and review the security configuration.</source>
+				<target state="translated">Benutzer entsperren und sperren, Passwortänderungen verlangen und die Sicherheitskonfiguration prüfen.</target>
+			</trans-unit>
+			<trans-unit id="tabs.users" xml:space="preserve">
+				<source>User management</source>
+				<target state="translated">Benutzerverwaltung</target>
+			</trans-unit>
+			<trans-unit id="tabs.checks" xml:space="preserve">
+				<source>Security checks</source>
+				<target state="translated">Sicherheitsprüfungen</target>
+			</trans-unit>
+			<trans-unit id="users.intro.lockout" xml:space="preserve">
+				<source>Users are deactivated after more than {0} failed logins in a row.</source>
+				<target state="translated">Benutzer werden nach mehr als {0} fehlgeschlagenen Anmeldungen in Folge deaktiviert.</target>
+			</trans-unit>
+			<trans-unit id="users.intro.lockoutDisabled" xml:space="preserve">
+				<source>The lockout after failed logins is disabled.</source>
+				<target state="translated">Die Sperre nach fehlgeschlagenen Anmeldungen ist deaktiviert.</target>
+			</trans-unit>
+			<trans-unit id="users.intro.activate" xml:space="preserve">
+				<source>Activating a user also resets its failed login counter.</source>
+				<target state="translated">Beim Aktivieren wird auch der Zähler für fehlgeschlagene Anmeldungen zurückgesetzt.</target>
+			</trans-unit>
+			<trans-unit id="users.column.name" xml:space="preserve">
+				<source>Name</source>
+				<target state="translated">Name</target>
+			</trans-unit>
+			<trans-unit id="users.column.accounts" xml:space="preserve">
+				<source>Accounts and roles</source>
+				<target state="translated">Konten und Rollen</target>
+			</trans-unit>
+			<trans-unit id="users.column.status" xml:space="preserve">
+				<source>Status</source>
+				<target state="translated">Status</target>
+			</trans-unit>
+			<trans-unit id="users.column.failedLogins" xml:space="preserve">
+				<source>Failed logins</source>
+				<target state="translated">Fehlgeschlagene Anmeldungen</target>
+			</trans-unit>
+			<trans-unit id="users.column.passwordResetRequired" xml:space="preserve">
+				<source>Password change required</source>
+				<target state="translated">Passwortänderung erforderlich</target>
+			</trans-unit>
+			<trans-unit id="users.status.active" xml:space="preserve">
+				<source>Active</source>
+				<target state="translated">Aktiv</target>
+			</trans-unit>
+			<trans-unit id="users.status.deactivated" xml:space="preserve">
+				<source>Deactivated</source>
+				<target state="translated">Deaktiviert</target>
+			</trans-unit>
+			<trans-unit id="yes" xml:space="preserve">
+				<source>Yes</source>
+				<target state="translated">Ja</target>
+			</trans-unit>
+			<trans-unit id="no" xml:space="preserve">
+				<source>No</source>
+				<target state="translated">Nein</target>
+			</trans-unit>
+			<trans-unit id="cancel" xml:space="preserve">
+				<source>Cancel</source>
+				<target state="translated">Abbrechen</target>
+			</trans-unit>
+			<trans-unit id="users.tooltip.clearPasswordReset" xml:space="preserve">
+				<source>No longer require a password change</source>
+				<target state="translated">Passwortänderung nicht mehr verlangen</target>
+			</trans-unit>
+			<trans-unit id="users.tooltip.requirePasswordReset" xml:space="preserve">
+				<source>Require a password change on next backend access</source>
+				<target state="translated">Passwortänderung beim nächsten Backend-Zugriff verlangen</target>
+			</trans-unit>
+			<trans-unit id="users.tooltip.requirePasswordResetDisabled" xml:space="preserve">
+				<source>Enable {0} to use this</source>
+				<target state="translated">Zum Verwenden {0} aktivieren</target>
+			</trans-unit>
+			<trans-unit id="users.tooltip.cannotDeactivateYourself" xml:space="preserve">
+				<source>You cannot deactivate yourself</source>
+				<target state="translated">Das eigene Konto kann nicht deaktiviert werden</target>
+			</trans-unit>
+			<trans-unit id="users.tooltip.deactivate" xml:space="preserve">
+				<source>Deactivate and log out</source>
+				<target state="translated">Deaktivieren und abmelden</target>
+			</trans-unit>
+			<trans-unit id="users.tooltip.activate" xml:space="preserve">
+				<source>Activate and reset failed logins</source>
+				<target state="translated">Aktivieren und fehlgeschlagene Anmeldungen zurücksetzen</target>
+			</trans-unit>
+			<trans-unit id="users.deactivate.title" xml:space="preserve">
+				<source>Really deactivate "{0}"?</source>
+				<target state="translated">"{0}" wirklich deaktivieren?</target>
+			</trans-unit>
+			<trans-unit id="users.deactivate.body" xml:space="preserve">
+				<source>All accounts of this user are deactivated and all active sessions are ended immediately. The user can be activated again here.</source>
+				<target state="translated">Alle Konten dieses Benutzers werden deaktiviert und alle aktiven Sitzungen sofort beendet. Der Benutzer kann hier wieder aktiviert werden.</target>
+			</trans-unit>
+			<trans-unit id="users.deactivate.confirm" xml:space="preserve">
+				<source>Deactivate</source>
+				<target state="translated">Deaktivieren</target>
+			</trans-unit>
+			<trans-unit id="flash.activated" xml:space="preserve">
+				<source>User "{0}" has been activated.</source>
+				<target state="translated">Benutzer "{0}" wurde aktiviert.</target>
+			</trans-unit>
+			<trans-unit id="flash.cannotDeactivateYourself" xml:space="preserve">
+				<source>You cannot deactivate yourself.</source>
+				<target state="translated">Das eigene Konto kann nicht deaktiviert werden.</target>
+			</trans-unit>
+			<trans-unit id="flash.deactivated" xml:space="preserve">
+				<source>User "{0}" has been deactivated and logged out.</source>
+				<target state="translated">Benutzer "{0}" wurde deaktiviert und abgemeldet.</target>
+			</trans-unit>
+			<trans-unit id="flash.passwordResetDisabled" xml:space="preserve">
+				<source>Enable {0} to require password changes.</source>
+				<target state="translated">Um Passwortänderungen zu verlangen, {0} aktivieren.</target>
+			</trans-unit>
+			<trans-unit id="flash.passwordResetRequired" xml:space="preserve">
+				<source>User "{0}" has to change the password on next backend access.</source>
+				<target state="translated">Benutzer "{0}" muss das Passwort beim nächsten Backend-Zugriff ändern.</target>
+			</trans-unit>
+			<trans-unit id="flash.passwordResetCleared" xml:space="preserve">
+				<source>User "{0}" no longer has to change the password.</source>
+				<target state="translated">Benutzer "{0}" muss das Passwort nicht mehr ändern.</target>
+			</trans-unit>
+			<trans-unit id="checks.column.status" xml:space="preserve">
+				<source>Status</source>
+				<target state="translated">Status</target>
+			</trans-unit>
+			<trans-unit id="checks.column.option" xml:space="preserve">
+				<source>Option</source>
+				<target state="translated">Option</target>
+			</trans-unit>
+			<trans-unit id="checks.column.value" xml:space="preserve">
+				<source>Current value</source>
+				<target state="translated">Aktueller Wert</target>
+			</trans-unit>
+			<trans-unit id="checks.column.setting" xml:space="preserve">
+				<source>Setting</source>
+				<target state="translated">Einstellung</target>
+			</trans-unit>
+			<trans-unit id="checks.enabled" xml:space="preserve">
+				<source>Enabled</source>
+				<target state="translated">Aktiviert</target>
+			</trans-unit>
+			<trans-unit id="checks.disabled" xml:space="preserve">
+				<source>Disabled</source>
+				<target state="translated">Deaktiviert</target>
+			</trans-unit>
+			<trans-unit id="checks.applicationToken.title" xml:space="preserve">
+				<source>Hide Neos version in HTTP headers</source>
+				<target state="translated">Neos-Version in HTTP-Headern verbergen</target>
+			</trans-unit>
+			<trans-unit id="checks.applicationToken.value" xml:space="preserve">
+				<source>Header token: {0}</source>
+				<target state="translated">Header-Token: {0}</target>
+			</trans-unit>
+			<trans-unit id="checks.loginUri.title" xml:space="preserve">
+				<source>Custom login URL</source>
+				<target state="translated">Eigene Login-URL</target>
+			</trans-unit>
+			<trans-unit id="checks.allowedIPs.title" xml:space="preserve">
+				<source>IP allowlist for the login</source>
+				<target state="translated">IP-Allowlist für das Login</target>
+			</trans-unit>
+			<trans-unit id="checks.allowedIPs.allowed" xml:space="preserve">
+				<source>Allowed: {0}</source>
+				<target state="translated">Erlaubt: {0}</target>
+			</trans-unit>
+			<trans-unit id="checks.allowedIPs.any" xml:space="preserve">
+				<source>Reachable from any IP address</source>
+				<target state="translated">Von jeder IP-Adresse erreichbar</target>
+			</trans-unit>
+			<trans-unit id="checks.allowedIPs.serverParams" xml:space="preserve">
+				<source>Client IP read from: {0}</source>
+				<target state="translated">Client-IP gelesen aus: {0}</target>
+			</trans-unit>
+			<trans-unit id="checks.allowedIPs.regex" xml:space="preserve">
+				<source>Login requests matched by: {0}</source>
+				<target state="translated">Login-Anfragen erkannt durch: {0}</target>
+			</trans-unit>
+			<trans-unit id="checks.passwordStrengthOnAddUser.title" xml:space="preserve">
+				<source>Password strength check on user creation</source>
+				<target state="translated">Prüfung der Passwortstärke beim Anlegen von Benutzern</target>
+			</trans-unit>
+			<trans-unit id="checks.passwordStrengthOnSetUserPassword.title" xml:space="preserve">
+				<source>Password strength check on password change</source>
+				<target state="translated">Prüfung der Passwortstärke bei Passwortänderungen</target>
+			</trans-unit>
+			<trans-unit id="checks.failedLogins.title" xml:space="preserve">
+				<source>Deactivate users after failed logins</source>
+				<target state="translated">Benutzer nach fehlgeschlagenen Anmeldungen deaktivieren</target>
+			</trans-unit>
+			<trans-unit id="checks.failedLogins.value" xml:space="preserve">
+				<source>After more than {0} failed logins</source>
+				<target state="translated">Nach mehr als {0} fehlgeschlagenen Anmeldungen</target>
+			</trans-unit>
+			<trans-unit id="checks.passwordHistory.title" xml:space="preserve">
+				<source>Prevent reuse of old passwords</source>
+				<target state="translated">Wiederverwendung alter Passwörter verhindern</target>
+			</trans-unit>
+			<trans-unit id="checks.passwordHistory.value" xml:space="preserve">
+				<source>Last {0} passwords</source>
+				<target state="translated">Letzte {0} Passwörter</target>
+			</trans-unit>
+			<trans-unit id="checks.forcePasswordReset.title" xml:space="preserve">
+				<source>Force password change after creation or admin update</source>
+				<target state="translated">Passwortänderung nach Erstellung oder Änderung durch Admins erzwingen</target>
+			</trans-unit>
+			<trans-unit id="passwordRequirements.minLength" xml:space="preserve">
+				<source>min. {0} characters</source>
+				<target state="translated">mind. {0} Zeichen</target>
+			</trans-unit>
+			<trans-unit id="passwordRequirements.upperAndLowerCase" xml:space="preserve">
+				<source>upper and lower case</source>
+				<target state="translated">Groß- und Kleinbuchstaben</target>
+			</trans-unit>
+			<trans-unit id="passwordRequirements.numbers" xml:space="preserve">
+				<source>numbers</source>
+				<target state="translated">Zahlen</target>
+			</trans-unit>
+			<trans-unit id="passwordRequirements.specialChars" xml:space="preserve">
+				<source>special characters</source>
+				<target state="translated">Sonderzeichen</target>
+			</trans-unit>
+			<trans-unit id="passwordRequirements.maxConsecutiveLetters" xml:space="preserve">
+				<source>max. {0} consecutive letters</source>
+				<target state="translated">max. {0} aufeinanderfolgende Buchstaben</target>
+			</trans-unit>
+			<trans-unit id="passwordRequirements.maxConsecutiveNumbers" xml:space="preserve">
+				<source>max. {0} consecutive numbers</source>
+				<target state="translated">max. {0} aufeinanderfolgende Ziffern</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

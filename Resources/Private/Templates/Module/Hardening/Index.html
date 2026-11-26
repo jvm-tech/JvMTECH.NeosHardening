@@ -1,0 +1,134 @@
+{namespace neos=Neos\Neos\ViewHelpers}
+<f:layout name="BackendSubModule" />
+
+<f:section name="content">
+	<div class="neos-row-fluid">
+		<p>
+			<f:if condition="{hardeningSettings.checkFailedLogins}">
+				<f:then>{neos:backend.translate(id: 'users.intro.lockout', arguments: {0: hardeningSettings.blockAfterFailedLogins}, source: 'Modules', package: 'JvMTECH.NeosHardening')}</f:then>
+				<f:else>{neos:backend.translate(id: 'users.intro.lockoutDisabled', source: 'Modules', package: 'JvMTECH.NeosHardening')}</f:else>
+			</f:if>
+			{neos:backend.translate(id: 'users.intro.activate', source: 'Modules', package: 'JvMTECH.NeosHardening')}
+		</p>
+		<br>
+
+		<table class="neos-table">
+			<thead>
+				<tr>
+					<th>{neos:backend.translate(id: 'users.column.name', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'users.column.accounts', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'users.column.status', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'users.column.failedLogins', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>{neos:backend.translate(id: 'users.column.passwordResetRequired', source: 'Modules', package: 'JvMTECH.NeosHardening')}</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<f:for each="{rows}" as="row" iteration="iteration">
+				<tr>
+					<td>{row.user.name.fullName}</td>
+					<td>
+						<f:for each="{row.user.accounts}" as="account">
+							<i class="fas fa-user icon-white"></i>{account.accountIdentifier}
+							<f:for each="{account.roles}" as="role">
+								<span class="neos-label" title="{role.identifier}" data-neos-toggle="tooltip">{f:if(condition: role.label, then: role.label, else: role.name)}</span>
+							</f:for>
+						</f:for>
+					</td>
+					<td>
+						<f:if condition="{row.isActive}">
+							<f:then><span class="neos-label neos-label-success">{neos:backend.translate(id: 'users.status.active', source: 'Modules', package: 'JvMTECH.NeosHardening')}</span></f:then>
+							<f:else><span class="neos-label neos-label-important">{neos:backend.translate(id: 'users.status.deactivated', source: 'Modules', package: 'JvMTECH.NeosHardening')}</span></f:else>
+						</f:if>
+					</td>
+					<td>
+						<f:if condition="{row.failedLogins}">
+							<f:then><span class="neos-label neos-label-warning">{row.failedLogins}</span></f:then>
+							<f:else>0</f:else>
+						</f:if>
+					</td>
+					<td>
+						<f:if condition="{row.passwordResetRequired}">
+							<f:then><span class="neos-label neos-label-warning">{neos:backend.translate(id: 'yes', source: 'Modules', package: 'JvMTECH.NeosHardening')}</span></f:then>
+							<f:else>{neos:backend.translate(id: 'no', source: 'Modules', package: 'JvMTECH.NeosHardening')}</f:else>
+						</f:if>
+					</td>
+					<td class="neos-action">
+						<div class="neos-pull-right">
+							<f:if condition="{row.passwordResetRequired}">
+								<f:then>
+									<f:form action="clearPasswordReset" arguments="{user: row.user}" class="neos-inline">
+										<button type="submit" class="neos-button" title="{neos:backend.translate(id: 'users.tooltip.clearPasswordReset', source: 'Modules', package: 'JvMTECH.NeosHardening')}" data-neos-toggle="tooltip">
+											<i class="fas fa-unlock-alt icon-white"></i>
+										</button>
+									</f:form>
+								</f:then>
+								<f:else>
+									<f:if condition="{hardeningSettings.forcePasswordResetAfterUpdate}">
+										<f:then>
+											<f:form action="requirePasswordReset" arguments="{user: row.user}" class="neos-inline">
+												<button type="submit" class="neos-button" title="{neos:backend.translate(id: 'users.tooltip.requirePasswordReset', source: 'Modules', package: 'JvMTECH.NeosHardening')}" data-neos-toggle="tooltip">
+													<i class="fas fa-key icon-white"></i>
+												</button>
+											</f:form>
+										</f:then>
+										<f:else>
+											<button class="neos-button neos-disabled" title="{neos:backend.translate(id: 'users.tooltip.requirePasswordResetDisabled', arguments: {0: 'JvMTECH.NeosHardening.forcePasswordResetAfterUpdate'}, source: 'Modules', package: 'JvMTECH.NeosHardening')}" data-neos-toggle="tooltip">
+												<i class="fas fa-key icon-white"></i>
+											</button>
+										</f:else>
+									</f:if>
+								</f:else>
+							</f:if>
+
+							<f:if condition="{row.isActive}">
+								<f:then>
+									<f:if condition="{row.isCurrentUser}">
+										<f:then>
+											<button class="neos-button neos-button-danger neos-disabled" title="{neos:backend.translate(id: 'users.tooltip.cannotDeactivateYourself', source: 'Modules', package: 'JvMTECH.NeosHardening')}" data-neos-toggle="tooltip">
+												<i class="fas fa-user-slash icon-white"></i>
+											</button>
+										</f:then>
+										<f:else>
+											<button class="neos-button neos-button-danger" title="{neos:backend.translate(id: 'users.tooltip.deactivate', source: 'Modules', package: 'JvMTECH.NeosHardening')}" data-toggle="modal" href="#deactivate-{iteration.index}" data-neos-toggle="tooltip">
+												<i class="fas fa-user-slash icon-white"></i>
+											</button>
+											<div class="neos-hide" id="deactivate-{iteration.index}">
+												<div class="neos-modal-centered">
+													<div class="neos-modal-content">
+														<div class="neos-modal-header">
+															<button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+															<div class="neos-header">{neos:backend.translate(id: 'users.deactivate.title', arguments: {0: row.user.label}, source: 'Modules', package: 'JvMTECH.NeosHardening')}</div>
+															<div>
+																<div class="neos-subheader">
+																	<p>{neos:backend.translate(id: 'users.deactivate.body', source: 'Modules', package: 'JvMTECH.NeosHardening')}</p>
+																</div>
+															</div>
+														</div>
+														<div class="neos-modal-footer">
+															<a href="#" class="neos-button" data-dismiss="modal">{neos:backend.translate(id: 'cancel', source: 'Modules', package: 'JvMTECH.NeosHardening')}</a>
+															<f:form action="deactivate" arguments="{user: row.user}" class="neos-inline">
+																<button type="submit" class="neos-button neos-button-danger">{neos:backend.translate(id: 'users.deactivate.confirm', source: 'Modules', package: 'JvMTECH.NeosHardening')}</button>
+															</f:form>
+														</div>
+													</div>
+												</div>
+												<div class="neos-modal-backdrop neos-in"></div>
+											</div>
+										</f:else>
+									</f:if>
+								</f:then>
+								<f:else>
+									<f:form action="activate" arguments="{user: row.user}" class="neos-inline">
+										<button type="submit" class="neos-button neos-button-success" title="{neos:backend.translate(id: 'users.tooltip.activate', source: 'Modules', package: 'JvMTECH.NeosHardening')}" data-neos-toggle="tooltip">
+											<i class="fas fa-user-check icon-white"></i>
+										</button>
+									</f:form>
+								</f:else>
+							</f:if>
+						</div>
+					</td>
+				</tr>
+			</f:for>
+		</table>
+	</div>
+</f:section>

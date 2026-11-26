@@ -1,0 +1,12 @@
+privilegeTargets:
+  'Neos\Neos\Security\Authorization\Privilege\ModulePrivilege':
+    'JvMTECH.NeosHardening:Backend.Module.Administration.Hardening':
+      label: General access to the hardening module
+      matcher: 'administration/hardening'
+
+roles:
+  'Neos.Neos:Administrator':
+    privileges:
+      -
+        privilegeTarget: 'JvMTECH.NeosHardening:Backend.Module.Administration.Hardening'
+        permission: GRANT
