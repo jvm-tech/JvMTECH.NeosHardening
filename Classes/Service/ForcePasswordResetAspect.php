@@ -48,6 +48,10 @@ class ForcePasswordResetAspect
     public function forcePasswordResetInContentControllerIndex(JoinPointInterface $joinPoint)
     {
         $user = $this->userService->getBackendUser();
+        if ($user === null) {
+            // Not authenticated (e.g. expired session): let the security framework redirect to the login
+            return $joinPoint->getAdviceChain()->proceed($joinPoint);
+        }
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
@@ -69,6 +73,10 @@ class ForcePasswordResetAspect
     public function forcePasswordResetInBackendControllerIndex(JoinPointInterface $joinPoint)
     {
         $user = $this->userService->getBackendUser();
+        if ($user === null) {
+            // Not authenticated (e.g. expired session): let the security framework redirect to the login
+            return $joinPoint->getAdviceChain()->proceed($joinPoint);
+        }
         $userObjectIdentifier = $this->persistenceManager->getIdentifierByObject($user);
 
         $cache = $this->cacheManager->getCache('JvMTECH_NeosHardening_ForcePasswordReset');
